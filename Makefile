@@ -155,6 +155,9 @@ bindata: kustomize yq ## Call sync bindata script
 	sed -i bindata/operator/operator.yaml -e "s|kube-rbac-proxy:replace_me.*|'{{ .KubeRbacProxyImage }}'|"
 	cp config/operator/managers.yaml bindata/operator/
 	cp config/operator/rabbit.yaml bindata/operator/
+	sed -i bindata/operator/operator.yaml -e "/envLeaderElection/c\\{{ range \$$envName, \$$envValue := .ManagerOptions }}\n        - name: {{ \$$envName }}\n          value: {{ \$$envValue }}\n{{ end }}"
+	sed -i bindata/operator/rabbit.yaml -e "/envLeaderElection/c\\{{ range \$$envName, \$$envValue := .ManagerOptions }}\n        - name: {{ \$$envName }}\n          value: {{ \$$envValue }}\n{{ end }}"
+	sed -i bindata/operator/managers.yaml -e "/envLeaderElection/c\\{{ range \$$envName, \$$envValue := .ManagerOptions }}\n        - name: {{ \$$envName }}\n          value: {{ \$$envValue }}\n{{ end }}"
 	$(KUSTOMIZE) build config/rbac > bindata/rbac/rbac.yaml
 	/bin/bash hack/sync-bindata.sh
 

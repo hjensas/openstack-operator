@@ -27,6 +27,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        envLeaderElection: replace_me #NOTE: this is used via the Makefile to inject a custom template loop that kustomize won't allow
         image: {{ .RabbitmqImage }}
         name: operator
         ports:

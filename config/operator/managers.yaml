@@ -36,6 +36,7 @@ spec:
 {{ else }}
           value: 'false'
 {{ end }}
+        envLeaderElection: replace_me #NOTE: this is used via the Makefile to inject a custom template loop that kustomize won't allow
         image: {{ $operatorImage }}
         livenessProbe:
           httpGet:
